@@ -36,3 +36,30 @@ struct Operation newOp(int _num)
 
     return New;
 }
+
+struct Station NewStation()
+{
+    struct Station New;
+    New.temps = 0;
+    New.nmbOp = 0;
+    New.couleur = 0;
+
+    return New;
+}
+
+void CompterAnt(struct Operation AllOp[100],int nmb)
+{
+    for(int i = 0 ; i < nmb ; i++)
+    {
+        for(int j = 0 ; j < nmb ; j++)
+        {
+            for(int l = 0 ; l < AllOp[j].nmbPr ; l++)
+            {
+                if(AllOp[j].prec[l]->num == AllOp[i].num)
+                {
+                    AllOp[i].nmbAnt++;
+                }
+            }
+        }
+    }
+}
