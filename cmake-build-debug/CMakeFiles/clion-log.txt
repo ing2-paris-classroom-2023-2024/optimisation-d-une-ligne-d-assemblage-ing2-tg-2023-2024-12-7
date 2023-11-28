@@ -4,4 +4,3 @@ CMake Error at CMakeLists.txt:1 (cmake_minimum_required):
 
 
 -- Configuring incomplete, errors occurred!
-See also "C:/Users/user1/Documents/GitHub/optimisation-d-une-ligne-d-assemblage-ing2-tg-2023-2024-12-7/cmake-build-debug/CMakeFiles/CMakeOutput.log".
