@@ -206,3 +206,61 @@ void chargementDonnes(struct Operation AllOp[100],int *nmb,float *tempsCycle)
     fclose(fic);
 
 }
+
+void voirLesDonnees(struct Operation AllOp[100],int nmb,float tempsCycle)
+{
+    int choix=0;
+    while(choix!=5)
+    {
+        printf("\n\nVOIR LES DONNEES\n");
+        printf("\n1-Voir les donnees d'exclusion");
+        printf("\n2-Voir les donnees de precedence");
+        printf("\n3-Voir les temps d'opeation");
+        printf("\n4-Voir le temps de cycle");
+        printf("\n5-Retour au menu\n");
+
+        scanf("%d",&choix);
+
+        printf("\n");
+
+        if(choix == 1)
+        {
+            for(int i = 0 ; i< nmb ; i++)
+            {
+                printf("\n%d exclusions: ",AllOp[i].num);
+                for(int j = 0 ; j < AllOp[i].nmbEx ; j++)
+                {
+                    printf("%d ",AllOp[i].exclu[j]->num);
+                }
+            }
+        }
+        else if (choix == 2)
+        {
+            for(int i = 0 ; i< nmb ; i++)
+            {
+                printf("\n%d suivant: ",AllOp[i].num);
+                for(int j = 0 ; j < AllOp[i].nmbPr ; j++)
+                {
+                    printf("%d ",AllOp[i].prec[j]->num);
+                }
+            }
+        }
+        else if( choix == 3)
+        {
+            for(int i = 0 ; i< nmb ; i++)
+            {
+                printf("%d temps : %.2fs\n",AllOp[i].num,AllOp[i].temps);
+            }
+        }
+        else if( choix == 4)
+        {
+            printf("temps cycle : %.2fs\n",tempsCycle);
+        }
+        else if( choix == 5)
+        {
+
+        }
+
+    }
+}
+
