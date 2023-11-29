@@ -89,3 +89,120 @@ int existe(struct Operation AllOp[100],int nmb, int num)
     }
     return 200;
 }
+
+
+void chargementDonnes(struct Operation AllOp[100],int *nmb,float *tempsCycle)
+{
+    /// RECUPERATION DU TEMPS DE CYCLE
+
+    FILE* fic = fopen("../temps_cycle.txt", "r");
+
+    if (!fic)
+    {
+        fprintf(stderr, "erreur temps_cycle.txt\n");
+        exit(EXIT_FAILURE);
+    }
+
+    fscanf(fic, "%f",tempsCycle);
+    fclose(fic);
+
+    /// RECUPERATION DU TEMPS DES OPERATIONS
+
+    fic = fopen("../operations.txt", "r");
+
+    if (!fic)
+    {
+        fprintf(stderr, "erreur operations.txt\n");
+        exit(EXIT_FAILURE);
+    }
+
+    int num;
+    float tmp;
+    while (fscanf(fic, "%d %f", &num, &tmp) != EOF)
+    {
+        int i = existe(AllOp,*nmb,num);
+        if(i != 200)
+        {
+            AllOp[i].temps = tmp;
+        }
+        else
+        {
+            AllOp[(*nmb)] = newOp(num);
+            AllOp[(*nmb)].temps = tmp;
+            (*nmb)++;
+        }
+    }
+    fclose(fic);
+
+    /// RECUPERATION DES EXCLUSIONS
+
+    fic = fopen("../exclusions.txt", "r");
+
+    if (!fic)
+    {
+        fprintf(stderr, "Impossible d'ouvrir exclusions.txt\n");
+        exit(EXIT_FAILURE);
+    }
+
+    int n1, n2;
+    while (fscanf(fic, "%d %d", &n1, &n2) != EOF)
+    {
+        int i = existe(AllOp,*nmb,n1);
+        if(i == 200)
+        {
+            AllOp[(*nmb)] = newOp(n1);
+            (*nmb)++;
+        }
+        i = existe(AllOp,*nmb,n2);
+        if(i == 200)
+        {
+            AllOp[(*nmb)] = newOp(n2);
+            (*nmb)++;
+        }
+
+        int i1 = existe(AllOp,*nmb,n1);
+        int i2 = existe(AllOp,*nmb,n2);
+        AllOp[i1].exclu[AllOp[i1].nmbEx] = &AllOp[i2];
+        AllOp[i1].nmbEx++;
+        AllOp[i2].exclu[AllOp[i2].nmbEx] = &AllOp[i1];
+        AllOp[i2].nmbEx++;
+
+    }
+
+    fclose(fic);
+
+    /// RECUPERATION DES PRECEDENCES
+
+    fic = fopen("../precedences.txt", "r");
+
+    if (!fic)
+    {
+        fprintf(stderr, "erreur precedences.txt\n");
+        exit(EXIT_FAILURE);
+    }
+
+    while (fscanf(fic,"%d %d", &n1, &n2) != EOF)
+    {
+        int i = existe(AllOp,*nmb,n1);
+        if(i == 200)
+        {
+            AllOp[(*nmb)] = newOp(n1);
+            (*nmb)++;
+        }
+        i = existe(AllOp,*nmb,n2);
+        if(i == 200)
+        {
+            AllOp[(*nmb)] = newOp(n2);
+            (*nmb)++;
+        }
+
+        int i1 = existe(AllOp,*nmb,n1);
+        int i2 = existe(AllOp,*nmb,n2);
+        AllOp[i1].prec[AllOp[i1].nmbPr] = &AllOp[i2];
+        AllOp[i1].nmbPr++;
+
+    }
+
+    fclose(fic);
+
+}
