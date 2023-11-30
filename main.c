@@ -311,3 +311,101 @@ int coloration(int couleur[100],struct Operation AllOp[100],int nmb)
     return couleurAct;
 
 }
+void C1(struct Operation AllOp[100],int nmb)
+{
+
+    int couleur[100];
+
+    int cmp = 0;
+
+    int nmbCouleur = coloration(couleur,AllOp,nmb);
+
+    struct Station AllStation[15];
+    for (int i = 0 ; i < 15 ; i++)
+    {
+        AllStation[i] = NewStation();
+
+    }
+
+
+
+
+    for(int i = 1 ; i < nmbCouleur ; i++ )
+    {
+        for(int j = 0 ; j < nmb ; j++)
+        {
+            if(couleur[j] == i)
+            {
+                ajouterOperation(&AllStation[i-1],AllOp[j]);
+            }
+        }
+
+    }
+
+
+    for(int i = 0 ; i < nmbCouleur-1 ; i++ )
+    {
+        printf("\nSTATION %d\n",i+1);
+        afficherStation(AllStation[i]);
+    }
+
+
+}
+
+
+void triTopologique(int ordre[100],struct Operation AllOp[100],int nmb)
+{
+
+    int decouvertBy[100];
+    int couleur[100];
+    for(int i = 0 ; i< nmb ; i++)
+    {
+        couleur[i]=0;
+        ordre[i] = -1;
+        decouvertBy[i] = -1;
+    }
+
+    int cmp = 0;
+    while(cmp != nmb)
+    {
+        int jeton = rand()%nmb;
+        int depart = jeton;
+
+        int out = 0;
+        while(out == 0 && couleur[jeton] != 2)
+        {
+            couleur[jeton] = 1;
+            int find = 0;
+            do
+            {
+                find = 0;
+                for(int i = 0 ; i < AllOp[jeton].nmbPr ; i++)
+                {
+                    if(couleur[existe(AllOp,nmb,AllOp[jeton].prec[i]->num)] == 0)
+                    {
+                        decouvertBy[existe(AllOp,nmb,AllOp[jeton].prec[i]->num)] = jeton;
+                        jeton = existe(AllOp,nmb,AllOp[jeton].prec[i]->num);
+                        couleur[jeton] = 1;
+                        find = 1;
+                        break;
+                    }
+                }
+            }
+            while(find == 1);
+
+            couleur[jeton] = 2;
+            ordre[nmb-cmp] = jeton;
+            cmp++;
+
+            if(jeton == depart)
+            {
+                out = 1;
+            }
+            else
+            {
+                jeton = decouvertBy[jeton];
+            }
+        }
+    }
+
+}
