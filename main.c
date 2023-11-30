@@ -264,3 +264,50 @@ void voirLesDonnees(struct Operation AllOp[100],int nmb,float tempsCycle)
     }
 }
 
+int trierDegres(const void *a, const void *b)
+{
+    return ((struct Operation *)b)->nmbEx - ((struct Operation *)a)->nmbEx;
+}
+
+
+
+int coloration(int couleur[100],struct Operation AllOp[100],int nmb)
+{
+    for (int i = 0; i < nmb; i++)
+    {
+        couleur[i] = 0;
+        AllOp[i].couleurWelsh = -1;
+    }
+
+    int couleurAct = 1;
+    int cmp = 0;
+    while(cmp != nmb)
+    {
+        for(int i = 0 ; i< nmb ; i++)
+        {
+            if(couleur[i] == 0)
+            {
+
+                int test = 0;
+                for(int j = 0 ; j < AllOp[i].nmbEx ; j++)
+                {
+
+                    if(couleur[existe(AllOp,nmb,AllOp[i].exclu[j]->num)]  == couleurAct)
+                        test = 1;
+                }
+
+                if(test == 0)
+                {
+                    couleur[i] = couleurAct;
+                    cmp++;
+                }
+
+
+            }
+        }
+        couleurAct++;
+    }
+
+    return couleurAct;
+
+}
