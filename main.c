@@ -409,3 +409,41 @@ void triTopologique(int ordre[100],struct Operation AllOp[100],int nmb)
     }
 
 }
+
+void C2(struct Operation AllOp[100],int nmb,float tempsCycle)
+{
+    int ordre[100];
+    triTopologique(ordre,AllOp,nmb);
+
+    int cmp;
+    int nmbStation = 0;
+    struct Station AllStation[15];
+    for (int i = 0 ; i < 15 ; i++)
+    {
+        AllStation[i] = NewStation();
+
+    }
+
+
+
+    for(int i = 1 ; i < nmb+1 ; i++)
+    {
+        if(AllStation[nmbStation].temps + AllOp[ordre[i]].temps < tempsCycle)
+        {
+            ajouterOperation(&AllStation[nmbStation],AllOp[ordre[i]]);
+        }
+        else
+        {
+            nmbStation++;
+            NewStation(AllStation[nmbStation]);
+            ajouterOperation(&AllStation[nmbStation],AllOp[ordre[i]]);
+        }
+    }
+
+    for(int i = 0 ; i < nmbStation +1 ; i++ )
+    {
+        printf("\nSTATION %d\n",i+1);
+        afficherStation(AllStation[i]);
+    }
+
+}
