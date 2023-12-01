@@ -544,3 +544,93 @@ void C4(struct Operation AllOp[100],int nmb)
 
     int nmbCouleur = coloration(couleur,AllOp,nmb);
     triTopologique(ordre,AllOp,nmb);
+
+    struct Station listeStation[15];
+    for (int i = 0 ; i < 15 ; i++)
+    {
+        listeStation[i] = NewStation();
+
+    }
+    int nmbStation = 0;
+    int cmp = 0;
+
+
+    while(cmp < nmb)
+    {
+
+        for(int i = 1 ; i < nmb+1 ; i++)
+        {
+            //printf("Analyse %d\n",AllOp[ordre[i]].num);
+            if(decouvert[ordre[i]] == 0)
+            {
+                //printf("couleur station: %d\n",listeStation[nmbStation].couleur);
+                if(listeStation[nmbStation].couleur == couleur[ordre[i]] || listeStation[nmbStation].couleur == 0 )
+                {
+                    //printf("L'operation est bien de la bonne couleur\n");
+                    if(AllOp[ordre[i]].nmbAnt == 0)
+                    {
+                        //printf("L'operation est une racine on l'ajoute a la station en cours\n");
+                        ajouterOperation(&listeStation[nmbStation],AllOp[ordre[i]]);
+                        decouvert[ordre[i]] = 1;
+                        cmp++;
+                        listeStation[nmbStation].couleur = couleur[ordre[i]];
+                        //printf("%d est decouvert\n",AllOp[ordre[i]].num);
+                        // system("pause");
+                    }
+                    else
+                    {
+                        //printf("on cherche si on peut acceder a la satation par des op deja decouverte\n");
+                        int found = 15;
+                        for(int j = 0 ; j < nmb ; j++)
+                        {
+                            if(decouvert[j] == 1)
+                            {
+                                //printf("Peut t'on aller de %d a %d\n",AllOp[j].num,AllOp[ordre[i]].num);
+                                // system("pause");
+                                if(DFS(AllOp,nmb,j,ordre[i],decouvert) == 0)
+                                {
+                                    found = 0;
+                                    //printf("oui\n");
+                                    break;
+                                }
+                                else
+                                {
+                                    //printf("non\n");
+
+                                }
+
+                            }
+                        }
+                        if(found == 0)
+                        {
+
+                            ajouterOperation(&listeStation[nmbStation],AllOp[ordre[i]]);
+                            decouvert[ordre[i]] = 1;
+                            cmp++;
+                            listeStation[nmbStation].couleur = couleur[ordre[i]];
+                            //printf("%d est decouvert",AllOp[ordre[i]].num);
+                            // system("pause");
+                        }
+                    }
+
+                }
+            }
+            else
+            {
+                // printf("%d est deja decouvert\n",AllOp[ordre[i]].num);
+                // printf("cmp= %d\n",cmp);
+            }
+
+        }
+        nmbStation++;
+        NewStation(listeStation[nmbStation]);
+
+    }
+
+    for(int i = 0 ; i < nmbStation  ; i++ )
+    {
+        printf("\nSTATION %d\n",i+1);
+        afficherStation(listeStation[i]);
+    }
+
+}
