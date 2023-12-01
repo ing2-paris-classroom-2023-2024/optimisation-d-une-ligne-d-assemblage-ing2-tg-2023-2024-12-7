@@ -490,3 +490,57 @@ void C3(struct Operation AllOp[100],int nmb,float tempsCycle)
     }
 
 }
+
+int DFS(struct Operation AllOp[100],int nmb,int D,int A,int couleur[100])
+{
+    int pile[100];
+    int cmp = 0;
+    pile[cmp] = D;
+
+    do
+    {
+
+        int t = cmp;
+
+        for(int i = 0 ; i < AllOp[pile[t]].nmbPr ; i++)
+        {
+
+            if(AllOp[pile[t]].prec[i]->num == AllOp[A].num)
+            {
+
+                return 0;
+            }
+            else
+            {
+
+
+                if(couleur[existe(AllOp,nmb,AllOp[pile[t]].prec[i]->num)] == 1)
+                {
+                    pile[cmp] = existe(AllOp,nmb,AllOp[pile[t]].prec[i]->num);
+                    cmp++;
+                }
+
+            }
+
+        }
+        cmp--;
+
+
+    }
+    while(cmp >= 0);
+
+    return 15;
+}
+
+void C4(struct Operation AllOp[100],int nmb)
+{
+
+    int couleur[100];
+    int ordre[100];
+    int decouvert[100];
+    for(int i = 0 ; i< nmb ; i++)
+        decouvert[i] = 0;
+
+
+    int nmbCouleur = coloration(couleur,AllOp,nmb);
+    triTopologique(ordre,AllOp,nmb);
