@@ -447,3 +447,46 @@ void C2(struct Operation AllOp[100],int nmb,float tempsCycle)
     }
 
 }
+void C3(struct Operation AllOp[100],int nmb,float tempsCycle)
+{
+    int couleur[100];
+
+    int nmbCouleur = coloration(couleur,AllOp,nmb);
+
+    struct Station AllStation[100];
+    for (int i = 0 ; i < 15 ; i++)
+    {
+        AllStation[i] = NewStation();
+
+    }
+
+    int ajout =0;
+
+    for(int i = 1 ; i < nmbCouleur ; i++ )
+    {
+        for(int j = 0 ; j < nmb ; j++)
+        {
+            if(couleur[j] == i)
+            {
+                if(AllStation[i-1+ajout].temps + AllOp[j].temps < tempsCycle)
+                {
+                    ajouterOperation(&AllStation[i-1+ajout],AllOp[j]);
+                }
+                else
+                {
+                    ajout++;
+                    ajouterOperation(&AllStation[i-1+ajout],AllOp[j]);
+                }
+            }
+        }
+
+    }
+
+
+    for(int i = 0 ; i < nmbCouleur-1+ajout ; i++ )
+    {
+        printf("\nSTATION %d\n",i+1);
+        afficherStation(AllStation[i]);
+    }
+
+}
