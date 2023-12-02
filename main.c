@@ -792,3 +792,49 @@ void CalculerStation(struct Operation AllOp[100],int nmb,float tempsCycle)
 
     }
 }
+int main()
+{
+    srand((unsigned int)time(NULL));
+    struct Operation AllOp[100];   // liste de toutes les opération
+    int nmb = 0;    // nombre d'opération ( vide au début )
+    float tempsCycle = 0;  // Temps maximal pour une station
+
+    chargementDonnes(AllOp,&nmb,&tempsCycle);
+    printf("donnees recuperes\n");
+    printf("nombre d'operation : %d\n",nmb);
+
+    CompterAnt(AllOp,nmb);
+
+
+
+
+
+    while(1==1)
+    {
+        printf("\nMENU\n");
+        printf("\n1-Calculer le nombre des station");
+        printf("\n2-Voir les donnees");
+        printf("\n3-Quitter\n");
+
+        int choix;
+        scanf("%d",&choix);
+
+        if(choix == 1)
+        {
+            CalculerStation(AllOp,nmb,tempsCycle);
+        }
+        else if (choix == 2)
+        {
+            voirLesDonnees(AllOp,nmb,tempsCycle);
+        }
+        else if( choix == 3)
+        {
+            return 0;
+        }
+
+    }
+
+    return 0;
+}
+
+
