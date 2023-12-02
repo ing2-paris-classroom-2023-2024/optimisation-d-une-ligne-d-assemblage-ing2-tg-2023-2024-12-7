@@ -743,3 +743,52 @@ void C5(struct Operation AllOp[100],int nmb,float tempsCycle)
     }
 
 }
+
+void CalculerStation(struct Operation AllOp[100],int nmb,float tempsCycle)
+{   int choix=0;
+
+    while(choix!=6)
+
+    {
+        printf("\nCALCULER LES STATIONS\n");
+        printf("\n1-Calculer en fonction des exclusions");
+        printf("\n2-Calculer en fonction des precedences et du temps de cycle");
+        printf("\n3-Calculer en fonction des exclusions et du temps de cycle");
+        printf("\n4-Calculer en fonction des precedences et des exclusions");
+        printf("\n5-Calculer final");
+        printf("\n6-Retour au menu\n");
+
+
+        scanf("%d",&choix);
+        float tmp = tempsCycle;
+
+        printf("\n");
+
+        if(choix == 1)
+        {
+            C1(AllOp,nmb);
+        }
+        else if (choix == 2)
+        {
+            C2(AllOp,nmb,tmp);
+        }
+        else if( choix == 3)
+        {
+            C3(AllOp,nmb,tempsCycle);
+        }
+        else if( choix == 4)
+        {
+            C4(AllOp,nmb);
+        }
+        else if( choix == 5)
+        {
+
+            C5(AllOp,nmb,tempsCycle);
+        }
+        else if( choix == 6)
+        {
+
+        }
+
+    }
+}
